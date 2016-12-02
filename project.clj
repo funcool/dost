@@ -4,9 +4,9 @@
   :license {:name "Apache 2.0"
             :url "http://www.apache.org/licenses/LICENSE-2.0"}
   :dependencies [[org.clojure/clojure "1.8.0" :scope "provided"]
-                 [org.clojure/clojurescript "1.9.225" :scope "provided"]
-                 [funcool/promesa "1.5.0"]
-                 [funcool/cuerdas "1.0.0-SNAPSHOT"]]
+                 [org.clojure/clojurescript "1.9.293" :scope "provided"]
+                 [funcool/promesa "1.6.0"]
+                 [funcool/cuerdas "2.0.1"]]
 
   :deploy-repositories {"releases" :clojars
                         "snapshots" :clojars}
