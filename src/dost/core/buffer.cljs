@@ -19,10 +19,16 @@
 (def ^:private buffer (node/require "buffer"))
 (def Buffer (.-Buffer buffer))
 
-(extend-type Buffer
+(extend-type js/Buffer
   ICounted
   (-count [it]
-    (.-length it)))
+    (.-length it))
+
+  IPrintWithWriter
+  (-pr-writer [mv writer _]
+    (let [size (count mv)
+          params {:size size}]
+      (-write writer (str "#<Buffer size=" size ">")))))
 
 (defn buffer?
   [v]
