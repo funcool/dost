@@ -39,8 +39,8 @@
     (let [{:keys [op key iv padding? tag aad]
            :or {op :encrypt padding? true}} opts
           engine (case op
-                   :encrypt (.createCipherIv crypto id key iv)
-                   :decrypt (.createDecipherIv crypto id key iv)
+                   :encrypt (.createCipheriv crypto id key iv)
+                   :decrypt (.createDecipheriv crypto id key iv)
                    (throw (ex-info "Invalid operation" {:op op})))]
       (when-not padding? (.setAutoPadding engine false))
       (when (buffer? tag) (.setAuthTag engine))
@@ -82,5 +82,8 @@
   [c input]
   {:pre [(cipher? c)]}
   (let [input (buffer/from input)]
-    (
+    (-update c input)))
 
+(defn end!
+  [c]
+  (-end c))
