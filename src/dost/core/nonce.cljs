@@ -15,7 +15,8 @@
 (ns dost.core.nonce
   "Namespace dedicated to provide an abstraction
   for generate a valid secure nonce and random ivs."
-  (:require [cljs.nodejs :as node]))
+  (:require [cljs.nodejs :as node]
+            [dost.core.buffer :as buffer]))
 
 (def ^:private crypto (node/require "crypto"))
 
