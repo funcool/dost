@@ -13,26 +13,17 @@
 ;; limitations under the License.
 
 (ns dost.core.buffer
+  "A byte array abstraction on top of nodejs buffer."
   (:refer-clojure :exclude [concat])
   (:require [cljs.nodejs :as node]))
 
+;; --- Constants
+
 (def ^:private buffer (node/require "buffer"))
+(def ^:private crypto (node/require "crypto"))
 (def Buffer (.-Buffer buffer))
 
-(extend-type js/Buffer
-  ICounted
-  (-count [it]
-    (.-length it))
-
-  IPrintWithWriter
-  (-pr-writer [mv writer _]
-    (let [size (count mv)
-          params {:size size}
-          out (->> (partition 2 (.toString mv "hex"))
-                   (map #(apply str %))
-                   (interpose " ")
-                   (apply str))]
-      (-write writer (str "#<Buffer " out ">")))))
+;; --- Public API
 
 (defn buffer?
   [v]
@@ -107,3 +98,20 @@
   one unique byte array and return it."
   [& parts]
   (.concat Buffer (into-array parts)))
+
+;; --- Implementation
+
+(extend-type js/Buffer
+  ICounted
+  (-count [it]
+    (.-length it))
+
+  IPrintWithWriter
+  (-pr-writer [mv writer _]
+    (let [size (count mv)
+          params {:size size}
+          out (->> (partition 2 (.toString mv "hex"))
+                   (map #(apply str %))
+                   (interpose " ")
+                   (apply str))]
+      (-write writer (str "#<Buffer " out ">")))))
