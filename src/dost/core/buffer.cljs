@@ -27,8 +27,12 @@
   IPrintWithWriter
   (-pr-writer [mv writer _]
     (let [size (count mv)
-          params {:size size}]
-      (-write writer (str "#<Buffer size=" size ">")))))
+          params {:size size}
+          out (->> (partition 2 (.toString mv "hex"))
+                   (map #(apply str %))
+                   (interpose " ")
+                   (apply str))]
+      (-write writer (str "#<Buffer " out ">")))))
 
 (defn buffer?
   [v]
