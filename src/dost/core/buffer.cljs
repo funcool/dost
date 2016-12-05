@@ -86,6 +86,9 @@
           (.-length b))
     false
 
+    (not (undefined? (.-timingSafeEqual crypto)))
+    (.timingSafeEqual crypto a b)
+
     :else
     (loop [i 0 c 0]
       (if (< i (.-length a))
